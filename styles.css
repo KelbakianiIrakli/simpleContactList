@@ -1,0 +1,60 @@
+.editPersonTable {
+  width:560px;
+}
+.modal-body {
+  position: relative;
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 20px;
+}
+label, table,.control-label, .help-block, .checkbox, .radio,.nav-link, .form-control-feedback {
+  font-size: 1.3rem;
+}
+span.text {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+.avatar{
+  display: inline-flex;
+  position: relative;
+}
+.avatar-container {
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #dadce0;
+  box-sizing : border-box;
+  overflow: hidden;
+  position: relative;
+  
+}
+.avatar-image{
+  width: 100%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7rem;
+  height: 7rem;
+}
+.avatar-size{
+  width: 7rem;
+  height: 7rem;
+}
+.edit-container{
+  opacity: 0%;
+  transition: opacity 0.2s ease-in-out;
+  background-color: rgba(32,33,36,0.6);
+  bottom: 0;
+  height: 33%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  text-align: center;
+  font-size: 75%
+}
+.avatar-container:hover .edit-container{
+  opacity: 1
+}
