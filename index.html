@@ -39,7 +39,7 @@
 <div class="container mt-4">
     <h1 class="display-4 text-center">
         <i class="fas fa-address-book text-primary"></i> My<span class="text-primary">Contact</span>List</h1>
-    <form id="book-form">
+    <form id="book-form" action="/contacts" enctype="multipart/form-data" method="POST">
             <div class="avatar">
                 <div class="avatar-container avatar-size" id= "avatarContainer" onclick='fireClickOnUploadButton()'>
                     <img id = "avatarImage" src="flamingo2.png" class="avatar-image" />
@@ -47,32 +47,32 @@
                         <div>📷</div>
                     </div>
                 </div>
-                <input id="profile-image-upload" class="hidden" type="file">
+                <input id="profile-image-upload" name="profile-image" class="hidden" type="file">
             </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-lg-6">
-                    <label for="first-name" id = "ika">სახელი</label>
-                    <input type="text" required="required" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('*აუცილებელი ველი')" placeholder = "სახელი" id="firstName" class="form-control">
+                    <label for="firstName" id = "ika">სახელი</label>
+                    <input name="firstName" type="text" required="required" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('*აუცილებელი ველი')" placeholder = "სახელი" id="firstName" class="form-control">
                 </div>
                 <div class="col-lg-6">
-                    <label for="last-name">გვარი</label>
-                    <input type="text" placeholder = "გვარი" id="lastName" class="form-control">
+                    <label for="lastName">გვარი</label>
+                    <input name= "lastName" type="text" placeholder = "გვარი" id="lastName" class="form-control">
                 </div>
             </div>
         </div>
         <div class="form-group" id= "phoneNumbersForm">
             <label for="phone-number">მობილურის ნომერი</label>
             <div class="input-group">
-                <input type="text" id ="mobileNumber1"placeholder = "მობილურის ნომერი №1" class="form-control">
+                <input type="text" name = "phoneNumber" id ="mobileNumber1"placeholder = "მობილურის ნომერი №1" class="form-control">
                 <span class="input-group-btn">
                     <button class="btn btn-primary" id="additionalPhoneNumber" onclick="additionalPhoneNumberField()" type="button"><i class="fas fa-plus"></i>&nbsp;დამატებითი ნომრის დამატება.</button>
                 </span>
             </div>
         </div>
         <div class="form-group">
-            <label for="group">ჯგუფში დამატება</label>
-            <select class="selectpicker" title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups" multiple="multiple">
+            <label for="groups">ჯგუფში დამატება</label>
+            <select name = "groups" class="selectpicker" title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups" multiple="multiple">
                 <option>ოჯახი</option>
                 <option>თანამშრომლები</option>
                 <option>ფეხბურთი</option>
@@ -81,11 +81,11 @@
             </select>
             <label for="remark">შენიშვნა</label>
             <div class="input-group">
-                <input type="text" placeholder = "შენიშვნა" class="form-control">
+                <input name= "remark" type="text" id="remark" placeholder = "შენიშვნა" class="form-control">
             </div>
         </div>
         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="favourite">
+            <input name= "favourite" type="checkbox" class="custom-control-input" id="favourite">
             <label class="custom-control-label" for="favourite">ფავორიტი</label>
         </div>
         <input type="submit" id ="submit" class="btn btn-primary btn-block" value="კონტაქტის დამატება">

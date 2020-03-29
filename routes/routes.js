@@ -1,6 +1,7 @@
 const mapMessage = require('../server/util/responseMapper');
 const addContact = require('../server/requests/addContact')
 const manageUserHandler = require('../server/requests/manageUsers')
+// const contactRoutes = require("../routes/contacts");
 module.exports = function routes(app) {
 
     app.post('/ajax/addContact', async function (req, res) {
@@ -27,7 +28,7 @@ module.exports = function routes(app) {
             mapMessage.mapErrorToMessage(res, error);
         }
     })
-
+    // app.use("/contacts", contactRoutes);
     // app.get('/logout', function (req, res) {
     //     sessionManagement.deleteSession(req);
     //     res.redirect('/login');

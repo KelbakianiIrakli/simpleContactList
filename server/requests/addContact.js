@@ -3,6 +3,10 @@ exports.addContact = async function (req) {
     var requiredValues = ["firstName", "lastName", "mobileNumbers"]
     var templateValues = ["სახელი","გვარი","მობილურის ნომერი"]
     missingValues= ""
+    // var bindata = new Buffer(req.body.imgByteArray.split(",")[1],"base64");
+    // let buff = new Buffer(bindata , 'base64');
+    // req.body.imgByteArray = buff
+    // let text = buff.toString('ascii');
     for (i = 0 ; i < requiredValues.length; i++) {
         if (!req.body[requiredValues[i]] || req.body[requiredValues[i]].length ==0 ){
 

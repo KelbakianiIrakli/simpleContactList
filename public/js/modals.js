@@ -129,7 +129,7 @@ $('#errorPopup').modal({'backdrop' : 'static'});
     else{
     $('#phoneNumbersForm').append('\
     <div class="input-group" id="inputGroup">\
-        <input type="text" id="mobileNumber'+ ++counter +'" placeholder = "მობილურის ნომერი №'+ counter +'" class="form-control">\
+        <input type="text" name="phoneNumber" id="mobileNumber'+ ++counter +'" placeholder = "მობილურის ნომერი №'+ counter +'" class="form-control">\
         <span class="input-group-btn">\
             <button class="btn  btn-danger" id="removeRow" type="button"><i class="fas fa-minus"></i>&nbsp ნომრის წაშლა.</button>\
         </span>\
@@ -148,6 +148,7 @@ $('#errorPopup').modal({'backdrop' : 'static'});
       while(document.getElementById("mobileNumber"+ (++numeralOfRemovedElement))){
         $('#mobileNumber'+numeralOfRemovedElement ).attr('placeholder', 'მობილურის ნომერი №'+ (numeralOfRemovedElement-1))
         $('#mobileNumber'+numeralOfRemovedElement ).attr('id', 'mobileNumber'+ (numeralOfRemovedElement-1))
+        
       }
       // if(numeralOfRemovedElement > 1 ){
       //   for (;numeralOfRemovedElement < 5; numeralOfRemovedElement++){
