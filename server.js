@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 const config = require("./setup/configuration");
 var routes = require('./routes/routes');
 var express = require('express')
-var app= express()
+var app = express()
 const contactRoutes = require("./routes/contacts");
 const mongoose = require("mongoose")
 mongoose.connect('mongodb+srv://Irakli:project-add-contacts@cluster0-brtk0.mongodb.net/test?retryWrites=true&w=majority');
@@ -30,19 +30,30 @@ app.use((req, res, next) => {
 
 app.use("/contacts", contactRoutes);
 // routes(app);
-app.get('/messages', (req,res) => {
-    res.send(messages)
-  })
-  app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    res.json({
-      error: {
-        message: error.message
-      }
-    });
+app.get('/messages', (req, res) => {
+  res.send(messages)
+})
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message
+    }
   });
-  
-  module.exports = app;
-var server = app.listen(config.getPort(), () => {
-    console.log('server is listening on port', server.address().port)
+});
+
+app.use((req, res, next) => {
+  const error = new Error('Not found')
+  error.status = 404
+  next(error)
+})
+app.use((error,req, res, next) => {
+  res.status(error.status || 500)
+  res.json({
+    error: {message: error.message}
   })
+})
+module.exports = app;
+var server = app.listen(config.getPort(), () => {
+  console.log('server is listening on port', server.address().port)
+})

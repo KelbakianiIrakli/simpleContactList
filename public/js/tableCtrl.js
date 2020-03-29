@@ -29,8 +29,8 @@ jQuery(function ($) {
             title: "სახელი"
         },
         {
-            name : "lastName",
-            title : "გვარი"
+            name: "lastName",
+            title: "გვარი"
         },
         {
             name: "mobileNumbers",
@@ -39,6 +39,10 @@ jQuery(function ($) {
         {
             name: "groups",
             title: "ჯგუფები"
+        },
+        {
+            name: "remark",
+            title: "შენიშვნა"
         },
         {
             name: "actions",
@@ -52,31 +56,31 @@ jQuery(function ($) {
 
 });
 function reloadData() {
-$.get('/contacts').then(function (dbData){
-    usersModel = dbData.data;
-    var id = 1;
-    var users = dbData.contacts.map(function (elem) {
-        delete elem._id;
-        var user = {};
-        user.id = id;
-        id++;
-        user.pic = '<img id = "avatarImage" src="../../'+elem.contactImage+'" class="avatar-size" >';
-        user.firstName = elem.firstName;
-        user.lastName = elem.lastName;
-        user.mobileNumbers = elem.phoneNumber
-        user.groups = elem.groups;
-        user.remark = elem.remark;
-        user.favourite = elem.favourite && elem.favourite != "no" ? '<div <i class="fas fa-star fa-2x" style="color:yellow"></i> </div>' : ""
-        // user.viewOrgs = (elem.viewOrgNames.length == 0 ? "<b>None.</b>" : elem.viewOrgNames.join(", "));
-        // user.modifyOrgs = (elem.modifyOrgNames.length == 0 ? "<b>None.</b>" : elem.modifyOrgNames.join(", "));
-        // user.role = elem.role;
-        user.actions = '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"><button class="btn btn-sm btn-primary fas fa-pen-square" onClick=modifyUser("' + elem.firstName+ '")></button><button class="btn btn-sm btn-danger fas fa-trash-alt" onClick=deleteUser("' + elem.firstName+ '")></button></div>'
-        return user
-    });
+    $.get('/contacts').then(function (dbData) {
+        usersModel = dbData.data;
+        var id = 1;
+        var users = dbData.contacts.map(function (elem) {
+            delete elem._id;
+            var user = {};
+            user.id = id;
+            id++;
+            user.pic = '<img id = "avatarImage" src="../../' + elem.contactImage + '" class="avatar-size" >';
+            user.firstName = elem.firstName;
+            user.lastName = elem.lastName;
+            user.mobileNumbers = elem.phoneNumber
+            user.groups = elem.groups;
+            user.remark = elem.remark;
+            user.favourite = elem.favourite == "on" ? '<div <i class="fas fa-star fa-2x" style="color:yellow"></i> </div>' : ""
+            // user.viewOrgs = (elem.viewOrgNames.length == 0 ? "<b>None.</b>" : elem.viewOrgNames.join(", "));
+            // user.modifyOrgs = (elem.modifyOrgNames.length == 0 ? "<b>None.</b>" : elem.modifyOrgNames.join(", "));
+            // user.role = elem.role;
+            user.actions = '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"><button class="btn btn-sm btn-primary fas fa-pen-square" onClick=modifyUser("' + elem.firstName + '")></button><button class="btn btn-sm btn-danger fas fa-trash-alt" onClick=deleteUser("' + elem.firstName + '")></button></div>'
+            return user
+        });
 
-    ft.rows.load(users)
+        ft.rows.load(users)
 
-})
+    })
 
 }
 // function reloadData() {
@@ -114,7 +118,7 @@ function modifyUser(element) {
     manageUserPopUp(element, "modifyUser", handleReturn)
 }
 
-var handleReturn = function (retData){
+var handleReturn = function (retData) {
     if (retData.cancel === undefined) {
 
         var posting = $.post("/ajax/manageUser",
@@ -157,8 +161,8 @@ function deleteUser(email) {
     var actualUser = usersModel.filter(function (elem) {
         return (elem.email == email)
     })[0];
-    yesOrNoWarningPopup("Are you sure you want to delete user: " + actualUser.email + " ?", function(decision){
-        if(decision == true){
+    yesOrNoWarningPopup("Are you sure you want to delete user: " + actualUser.email + " ?", function (decision) {
+        if (decision == true) {
             var retData = {};
             retData.data = actualUser;
             retData.action = "deleteUser";

@@ -1,43 +1,52 @@
 $(function () {
     console.log("loaded")
 })
-// var input = document.querySelector('input[type=file]');
-// input.onchange = function () {
-//     var file = input.files[0],
-//       reader = new FileReader();
-  
-//     reader.onloadend = function () {
-//       console.log(reader.result)
-//       var b64 = reader.result.replace(/^data:.+;base64,/, '');
-//       console.log(b64)
-//       console.log(b64); //-> "R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs="
-//     };
-  
-//     reader.readAsDataURL(file);
-//   };
-var byteArray;	
-    var readURL = function(input) {
-        byteArray = ""
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            byteArray = "OLAA"
-            reader.onload = function (e) {
-                byteArray = e.target.result
-                $('#avatarImage').attr('src', byteArray);
-            }
-    
-            reader.readAsDataURL(input.files[0]);
+
+$("#add-contacts-form").submit(function (event) {
+    event.preventDefault();
+    var form = $('#add-contacts-form')[0]
+    var formData = new FormData(form);
+
+    $.ajax({
+        url: '/contacts',
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+            console.log(response);
+            location.reload();
         }
-    }
-   
-    $("#profile-image-upload").on('change', function(){
-        readURL(this);
     });
-    
-    function fireClickOnUploadButton() {
-        console.log("hi")
-       $("#profile-image-upload").click();
-    };
+
+    return false;
+});
+var byteArray;
+var readURL = function (input) {
+    byteArray = ""
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        byteArray = "OLAA"
+        reader.onload = function (e) {
+            byteArray = e.target.result
+            $('#avatarImage').attr('src', byteArray);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#profile-image-upload").on('change', function () {
+    readURL(this);
+});
+
+function fireClickOnUploadButton() {
+    console.log("hi")
+    $("#profile-image-upload").click();
+};
 
 // document.querySelector('#book-form').addEventListener('submit', function (e){
 //     e.preventDefault()
@@ -73,7 +82,7 @@ function savePicture(book, coverEncoded) {
     if (coverEncoded == null) return
     const cover = JSON.parse(coverEncoded)
     if (cover != null && imageMimeTypes.includes(cover.type)) {
-      book.coverImage = new Buffer.from(cover.data, 'base64')
-      book.coverImageType = cover.type
+        book.coverImage = new Buffer.from(cover.data, 'base64')
+        book.coverImageType = cover.type
     }
-  }
+}
