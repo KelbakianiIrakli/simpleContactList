@@ -1,5 +1,12 @@
 var counter = 1
 const limit = 5 
+// var s = document.createElement("script");
+// s.type = "text/javascript";
+// s.src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js";
+$(".js-example-tokenizer").select2({
+  tags: true,
+  tokenSeparators: [',', ' ']
+})
 function yesOrNoWarningPopup(text, cb) {
     $('body').append(' \
     <div class="modal fade" id="yesOrNoWarningPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" autofocus> \
@@ -98,11 +105,15 @@ $('#errorPopup').modal({'backdrop' : 'static'});
             <span aria-hidden="true">&times;</span>\
           </button>\
         </div>\
-        <div class="modal-body" style="overflow-y: auto">\
+        <div class="modal-body" style="overflow-y: auto" >\
         <table>\
+        <tr><td><font size="2">სახელი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="firstName-edit" placeholder ="სახელი"></textarea>\
+        <tr><td><font size="2">გვარი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="lastName-edit" placeholder ="გვარი"></textarea>\
+        <tr><td><font size="2">მობილურის ნომერი:</font></td><td><textarea form="form-group" style="resize:none" rows="2" class="form-control" id="group-edit" placeholder ="Comment"></textarea>\
+        <tr><td><font size="2">ჯგუფები:</font></td><td> <select id= "select" class="form-control" name = "groups" class="selectpicker" title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups" multiple="multiple"> <option>ოჯახი</option> <option>თანამშრომლები</option> <option>ფეხბურთი</option> <option>კალათბურთი</option> <option>ჭადრაკი</option> </select>\
         <tr><td><font size="2">Onboarding needed:</font></td><td><select id="onboard" class="form-control" >\<option disabled="disabled" selected="selected" value="">Onboarding needed *</option>\<option value="Yes">Yes</option>\<option value="No">No</option>\</select>\
         <tr><td><font size="2">Workchange:</font></td><td><select id="workchange" class="form-control" >\<option disabled="disabled" selected="selected" value="">Is workchange below 50% (Germany 25%) ? *</option>\<option value="Yes">Yes</option>\<option value="No">No</option>\</select>\
-          <tr><td><font size="2">Comment:</font></td><td><textarea form="form-group" style="resize:none" rows="2" class="form-control" id="comment" placeholder ="Comment"></textarea>\
+        <tr><td><font size="2">Comment:</font></td><td><textarea form="form-group" style="resize:none" rows="2" class="form-control" id="comment" placeholder ="Comment"></textarea>\
         </table>\
         </div>\
         <div class="modal-footer">\
@@ -112,6 +123,9 @@ $('#errorPopup').modal({'backdrop' : 'static'});
       </div>\
     </div>\
   </div>')
+  $('.dropdown-menu inner show').click(function(){
+    $('#groups').text("hi");
+  });
   $(".modal").draggable({ handle: ".modal-header" });
   $('#manageUserPopUp').modal({'backdrop' : 'static'});
     $('#manageUserPopUp #closeButton').on('click', function (evt) {

@@ -1,7 +1,6 @@
 var usersModel = [];
 var ft;
 $().dropdown('toggle')
-
 jQuery(function ($) {
     ft = FooTable.init('.table', {
         "paging": {
@@ -60,11 +59,11 @@ function reloadData() {
         usersModel = dbData.data;
         var id = 1;
         var users = dbData.contacts.map(function (elem) {
-            delete elem._id;
             var user = {};
+            user._id = elem._id
             user.id = id;
             id++;
-            user.pic = '<img id = "avatarImage" src="../../' + elem.contactImage + '" class="avatar-size" >';
+            user.pic = '<img id = "avatarImage" data-id ="'+user._id+'" src="../../' + elem.contactImage + '" class="avatar-size" >';
             user.firstName = elem.firstName;
             user.lastName = elem.lastName;
             user.mobileNumbers = elem.phoneNumber
