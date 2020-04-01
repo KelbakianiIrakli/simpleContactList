@@ -1,34 +1,43 @@
 var counter = 1
 const limit = 5 
-// var s = document.createElement("script");
-// s.type = "text/javascript";
-// s.src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js";
-$(".js-example-tokenizer").select2({
-  tags: true,
-  tokenSeparators: [',', ' ']
-})
+
 function yesOrNoWarningPopup(text, cb) {
-    $('body').append(' \
-    <div class="modal fade" id="yesOrNoWarningPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" autofocus> \
-    <div class="modal-dialog" role="document"> \
-      <div class="modal-content"> \
-        <div class="modal-header modal-header-warning"> \
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> \
-          <h5 class="modal-title" id="myModalLabel"><b>Warning</b></h5> \
-        </div> \
-        <div class="modal-body"> \
-          <p class="text-center"> \
-        ' + text + '\
-          </p> \
-        </div> \
-        <div class="modal-footer"> \
-        <button type="button" class="btn btn-default" id="yesButton">Yes</button> \
-        <button type="button" class="btn btn-default" id="noButton">No</button> \
-        </div> \
-      </div> \
-    </div> \
-    </div> \
-  ')}
+    $('body').append('\
+<div class="modal" id="yesOrNoPopup";>\
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">\
+    <div class="modal-content bg-info">\
+      <div class="modal-header">\
+        <h5 class="modal-title w-100 fas fa-bell" style="color:red"\>&nbsp ყურადღება!</h5>\
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+          <span aria-hidden="true">&times;</span>\
+        </button>\
+      </div>\
+      <div class="modal-body"style="color:red">\
+        <p>'+text+' </p>\
+      </div>\
+      <div class="modal-footer">\
+        <button type="button" id="deletionApproved" class="btn btn-primary">კი</button>\
+        <button type="button" id="closeButton" class="btn btn-secondary" data-dismiss="modal">არა</button>\
+      </div>\
+    </div>\
+  </div>\
+</div>\
+')
+$(".modal").draggable({ handle: ".modal-header" });
+$('#yesOrNoPopup').modal({'backdrop' : 'static'});
+
+$('#yesOrNoPopup #deletionApproved').on('click', function () {
+  cb(true);
+})
+    $('#yesOrNoPopup #closeButton').on('click', function () {
+      $('#yesOrNoPopup').modal('hide');
+    })
+  
+    $('#yesOrNoPopup').on('hidden.bs.modal', function () {
+      $('#yesOrNoPopup').remove();
+    });
+
+}
   function errorPopup(text) {
   $('body').append(' \
   <div class="modal" id="errorPopup">\
@@ -94,40 +103,87 @@ $('#errorPopup').modal({'backdrop' : 'static'});
       });
     
     }
-  function manageUserPopUp(text){
+  function manageUserPopUp(input){
+    var imageSrc = input.contact.contactImage &&  input.contact.contactImage != "none" ? "../../"+ input.contact.contactImage :  "../../"+ "flamingo2.png"
+    var favourite = input.contact.favourite == 'on' ? "Yes" : "No"
+    var phoneNumbers = input.contact.phoneNumber ? input.contact.phoneNumber.length > 0 ? input.contact.phoneNumber.join() : "" : ""
     $('body').append(' \
     <div class="modal" id="manageUserPopUp">\
-    <div class="modal-dialog modal-xl" role="document">\
-      <div class="modal-content bg-light">\
+    <div class="modal-dialog modal-lg" role="document">\
+      <div id ="modal-content" class="modal-content bg-info mb-3">\
         <div class="modal-header">\
           <h5 class="modal-title w-100 text-center fas fa-pen-square" style="color:blue"\>&nbspდეტალების ჩასწორება.</h5>\
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
             <span aria-hidden="true">&times;</span>\
           </button>\
         </div>\
+        <form id="edit-contacts-form">\
         <div class="modal-body" style="overflow-y: auto" >\
-        <table>\
-        <tr><td><font size="2">სახელი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="firstName-edit" placeholder ="სახელი"></textarea>\
-        <tr><td><font size="2">გვარი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="lastName-edit" placeholder ="გვარი"></textarea>\
-        <tr><td><font size="2">მობილურის ნომერი:</font></td><td><textarea form="form-group" style="resize:none" rows="2" class="form-control" id="group-edit" placeholder ="Comment"></textarea>\
-        <tr><td><font size="2">ჯგუფები:</font></td><td> <select id= "select" class="form-control" name = "groups" class="selectpicker" title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups" multiple="multiple"> <option>ოჯახი</option> <option>თანამშრომლები</option> <option>ფეხბურთი</option> <option>კალათბურთი</option> <option>ჭადრაკი</option> </select>\
-        <tr><td><font size="2">Onboarding needed:</font></td><td><select id="onboard" class="form-control" >\<option disabled="disabled" selected="selected" value="">Onboarding needed *</option>\<option value="Yes">Yes</option>\<option value="No">No</option>\</select>\
-        <tr><td><font size="2">Workchange:</font></td><td><select id="workchange" class="form-control" >\<option disabled="disabled" selected="selected" value="">Is workchange below 50% (Germany 25%) ? *</option>\<option value="Yes">Yes</option>\<option value="No">No</option>\</select>\
-        <tr><td><font size="2">Comment:</font></td><td><textarea form="form-group" style="resize:none" rows="2" class="form-control" id="comment" placeholder ="Comment"></textarea>\
+        <table align="center">\
+        <tr><td><div class="avatar"> <div class="avatar-container avatar-size" id= "avatarContainerForEdit" data-id ="'+input.contact._id +'" > <img id = "avatarImageForEdit" src="'+imageSrc+'" class="avatar-image" /> <div class="edit-container"> <div>📷</div> </div> </div> </div>\</td><td><input id="profile-image-upload-edit" name="profile-image-edit" class="hidden" type="file">\
+        <tr><td><font size="2">სახელი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="firstName-edit"></textarea>\
+        <tr><td><font size="2">გვარი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="lastName-edit" placeholder ="გვარი"></textarea> \
+        <tr><td><font size="2">ჯგუფები:</font></td><td> <select id= "select-edit" class="form-control" name = "groups" class="selectpicker"  title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups"  multiple="multiple"></select>\
+        <tr><td><font size="2">შენიშვნა:</font></td><td><textarea form="form-group" style="resize:none" rows="3" class="form-control" id="remark-edit" placeholder ="შენიშვნა"></textarea> \
+        <tr><td><font size="2">ფავორიტი:</font></td><td><select id="favourite-edit" class="form-control">\<option value="Yes">კი</option>\<option value="No">არა</option>\</select>\
+        <tr><td><font size="2" class= "p-3 mb-2 bg-danger text-white"> *გაფრთხილება! </font></td><td><textarea disabled style="background-color: red;color:#fff;" form="form-group" style="resize:none" rows="4" class="form-control" id="warning" >შეგიძლიათ მაქსიმუმ 5 ნომრის დამატება. ნომრები გამოყოფილი უნდა იყოს მძიმით.</textarea>\
+        <tr><td><font size="2">მობილურის ნომერი:</font></td><td><textarea form="form-group" style="resize:none" rows="3" class="form-control" id="PhoneNumber-group-edit"></textarea>\
         </table>\
         </div>\
-        <div class="modal-footer">\
-          <button type="button" class="btn btn-primary">Save changes</button>\
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>\
+        <div class="modal-footer" id= "userPopUpFooter">\
+          <button type="button" id="saveEditedValues" class="btn btn-primary">Save changes</button>\
+          <button type="button" id= "closeButton" class="btn btn-primary" data-dismiss="modal">Close</button>\
         </div>\
+        </form>\
       </div>\
     </div>\
   </div>')
-  $('.dropdown-menu inner show').click(function(){
-    $('#groups').text("hi");
-  });
+  
+  $('#firstName-edit').val(input.contact.firstName);
+  $('#lastName-edit').val( input.contact.lastName);
+  $('#remark-edit').val(input.contact.remark);
+  $('#PhoneNumber-group-edit').val(phoneNumbers);
+  $('#favourite-edit').val(favourite);
+  $('#select-edit').selectpicker();
+  dropDownOptions.forEach(function(item, index){
+    var isSelected = input.contact.groups.indexOf(item) > -1 ? true : false
+    if(isSelected){
+      $("#select-edit").append('<option value="'+ index+1 +'" selected="">'+dropDownOptions[index]+'</option>');
+    }
+    else{
+      $("#select-edit").append('<option value="'+index+1+'">'+dropDownOptions[index]+'</option>');
+    }
+  })
+   $("#select-edit").selectpicker("refresh");
+   
   $(".modal").draggable({ handle: ".modal-header" });
   $('#manageUserPopUp').modal({'backdrop' : 'static'});
+  $('#PhoneNumber-group-edit').val(phoneNumbers);
+  $('#favourite-edit').val(favourite);
+  $('#manageUserPopUp #avatarContainerForEdit').on('click', function(){
+    $("#profile-image-upload-edit").on('change', function () {
+      readURL(this, "avatarImageForEdit");
+  });
+    $("#profile-image-upload-edit").click();
+
+  })
+     $('#manageUserPopUp #saveEditedValues').on('click', function () {
+      var data = {contactId: input.contact._id}
+      
+      if($('#firstName-edit').val() != input.contact.firstName) data.firstName = $('#firstName-edit').val() 
+      if($('#lastName-edit').val() != input.contact.lastName) data.lastName = $('#lastName-edit').val()
+      if($('#remark-edit').val() != input.contact.remark) data.remark = $('#remark-edit').val()
+      // if($('#PhoneNumber-group-edit').val() == input.contact.lastName) data.lastName == $('#lastName-edit').val()
+      if($('#favourite-edit').val() != input.contact.lastName) data.favourite == $('#favourite-edit').val()
+      
+      var form_data = new FormData();
+      for ( var key in data ) {
+          form_data.append(key, data[key]);
+      }
+      // console.log($('input[type=file]')[0].fildes[0])
+      if($('#profile-image-upload-edit')[0].files[0]) form_data.append('profile-image-edit', $('#profile-image-upload-edit')[0].files[0]);
+      sendPatchRequest(form_data, input.contact._id)
+    })
     $('#manageUserPopUp #closeButton').on('click', function (evt) {
       $('#manageUserPopUp').modal('hide');
     })
@@ -135,7 +191,7 @@ $('#errorPopup').modal({'backdrop' : 'static'});
     $('#manageUserPopUp').on('hidden.bs.modal', function () {
       $('#manageUserPopUp').remove();
     });
-  }
+  };
   function additionalPhoneNumberField(){
     if(counter >= limit ){
       warningPopup("დაშვებულია მაქსიმუმ 5 ნომრის დამატება")

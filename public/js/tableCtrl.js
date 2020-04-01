@@ -1,3 +1,4 @@
+
 var usersModel = [];
 var ft;
 $().dropdown('toggle')
@@ -59,11 +60,13 @@ function reloadData() {
         usersModel = dbData.data;
         var id = 1;
         var users = dbData.contacts.map(function (elem) {
+            var contactImage;
+            contactImage = elem.contactImage && elem.contactImage !="none" ? '../../' + elem.contactImage : "../../"+ "flamingo2.png"
             var user = {};
             user._id = elem._id
             user.id = id;
             id++;
-            user.pic = '<img id = "avatarImage" data-id ="'+user._id+'" src="../../' + elem.contactImage + '" class="avatar-size" >';
+            user.pic = '<img id = "avatarImage" data-id ="'+user._id+'" src="'+ contactImage + '" class="avatar-size" >';
             user.firstName = elem.firstName;
             user.lastName = elem.lastName;
             user.mobileNumbers = elem.phoneNumber
@@ -73,7 +76,8 @@ function reloadData() {
             // user.viewOrgs = (elem.viewOrgNames.length == 0 ? "<b>None.</b>" : elem.viewOrgNames.join(", "));
             // user.modifyOrgs = (elem.modifyOrgNames.length == 0 ? "<b>None.</b>" : elem.modifyOrgNames.join(", "));
             // user.role = elem.role;
-            user.actions = '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"><button class="btn btn-sm btn-primary fas fa-pen-square" onClick=modifyUser("' + elem.firstName + '")></button><button class="btn btn-sm btn-danger fas fa-trash-alt" onClick=deleteUser("' + elem.firstName + '")></button></div>'
+            user.actions = '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"><button class="btn btn-sm btn-primary fas fa-pen-square" onClick=modifyUser("' + elem._id +'")>\
+            </button><button class="btn btn-sm btn-danger fas fa-trash-alt" onClick=deleteUser("' + elem._id+ '","' + elem.firstName + '","' + elem.lastName + '")></button></div>'
             return user
         });
 
@@ -110,11 +114,19 @@ function reloadData() {
 
 // }
 
-function modifyUser(element) {
-    // var actualUser = usersModel.filter(function (elem) {
-    //     return (elem.email == email,)
-    // })[0];
-    manageUserPopUp(element, "modifyUser", handleReturn)
+function modifyUser(id) {
+    $.ajax({
+        url: '/contacts/'+id,
+        type: 'GET',
+        async: false,
+        processData: false,
+        success: function (response) {
+            console.log(response);
+            manageUserPopUp(response);
+        }
+    });
+
+    
 }
 
 var handleReturn = function (retData) {
@@ -156,17 +168,22 @@ function addNewUser() {
     manageUserPopUp2(userObject, "addUser", handleReturn)
 }
 
-function deleteUser(email) {
-    var actualUser = usersModel.filter(function (elem) {
-        return (elem.email == email)
-    })[0];
-    yesOrNoWarningPopup("Are you sure you want to delete user: " + actualUser.email + " ?", function (decision) {
+function deleteUser(id, firstName,lastName) {
+    yesOrNoWarningPopup("ნამდვილად გსურთ კონტაქტებიდან წაშალოთ: <p>" + firstName +" "+ lastName + " ?</p>", function (decision) {
         if (decision == true) {
-            var retData = {};
-            retData.data = actualUser;
-            retData.action = "deleteUser";
-            handleReturn(retData);
-            reloadData()
+            $.ajax({
+                url: '/contacts/'+id,
+                type: 'Delete',
+                async: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response);
+                    // fs.unlinkSync('../../'+response.link)
+                    reloadData();
+                    $('#yesOrNoPopup').modal('hide');
+                }
+            });
+            
         }
     });
 }

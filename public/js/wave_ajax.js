@@ -1,7 +1,7 @@
 $(function () {
     console.log("loaded")
 })
-
+dropDownOptions = [ 'ოჯახი','თანამშრომლები', "ფეხბურთი", 'კალათბურთი', ]
 $("#add-contacts-form").submit(function (event) {
     event.preventDefault();
     var form = $('#add-contacts-form')[0]
@@ -25,14 +25,14 @@ $("#add-contacts-form").submit(function (event) {
     return false;
 });
 var byteArray;
-var readURL = function (input) {
+var readURL = function (input, id) {
     byteArray = ""
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         byteArray = "OLAA"
         reader.onload = function (e) {
             byteArray = e.target.result
-            $('#avatarImage').attr('src', byteArray);
+            $('#'+id).attr('src', byteArray);
         }
 
         reader.readAsDataURL(input.files[0]);
@@ -40,11 +40,10 @@ var readURL = function (input) {
 }
 
 $("#profile-image-upload").on('change', function () {
-    readURL(this);
+    readURL(this, "avatarImage" );
 });
 
 function fireClickOnUploadButton() {
-    console.log("hi")
     $("#profile-image-upload").click();
 };
 
@@ -85,4 +84,51 @@ function savePicture(book, coverEncoded) {
         book.coverImage = new Buffer.from(cover.data, 'base64')
         book.coverImageType = cover.type
     }
+}
+// function sendPatchRequest(data) {
+//     // var formData = new FormData(data);
+//     $.ajax({
+//         url: '/contacts/'+data.contactId,
+//         type: 'PATCH',
+//         data: data,
+//         async: false,
+//         cache: false,
+//         contentType: false,
+//         enctype: 'multipart/form-data',
+//         processData: false,
+//         success: function (response) {
+//             console.log(response);
+//             location.reload();
+//         }
+//     });
+
+//     return false;
+// };
+
+function sendPatchRequest(formData, id) {
+
+    $.ajax({
+        url: '/contacts/'+id,
+        type: 'PATCH',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+            console.log(response);
+            reloadData()
+            document.getElementById('userPopUpFooter').innerHTML = ('<button type="button" id="successfullyEditedButton" class="btn btn-success btn-lg btn-block no-click"><i class="fas fa-check"></i> Success</button>')
+            $('#manageUserPopUp #successfullyEditedButton').on('click', function () {
+                $('#manageUserPopUp').modal('hide');
+                $('#manageUserPopUp').remove();
+            })
+        },
+        error: function(response){
+
+        }
+    });
+
+    return false;
 }
