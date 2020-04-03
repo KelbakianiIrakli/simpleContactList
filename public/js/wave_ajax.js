@@ -32,8 +32,7 @@ $("#contacts-groups-form").submit(function (event) {
         arrayOfSavedGroups = arrayOfSavedGroups.filter(function (element) { return element.value }).map(function (element) { return element.value })
     }
     Store.setDropDownOptions(arrayOfSavedGroups)
-
-    return false;
+    location.reload()
 });
 function loadPageFillByGroups() {
     var dropDownOptions = Store.getdropDownOptions()

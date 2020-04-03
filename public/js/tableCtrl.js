@@ -61,7 +61,7 @@ function reloadData() {
         var id = 1;
         var users = dbData.contacts.map(function (elem) {
             var contactImage;
-            contactImage = elem.contactImage && elem.contactImage !="none" ? '../../' + elem.contactImage : "../../"+ "flamingo2.png"
+            contactImage = elem.contactImage && elem.contactImage !="none" ? '../../' + elem.contactImage : "../../"+ "avatar.png"
             var user = {};
             user._id = elem._id
             user.id = id;
@@ -169,7 +169,7 @@ function addNewUser() {
 }
 
 function deleteUser(id) {
-    yesOrNoWarningPopup("ნამდვილად გსურთ კონტაქტებიდან წაშალოთ ეს კონტაქტი?", function (decision) {
+    yesOrNoWarningPopup("ნამდვილად გსურთ კონტაქტებიდან წაშალოთ ეს პიროვნება?", function (decision) {
         if (decision == true) {
             $.ajax({
                 url: '/contacts/'+id,
@@ -178,7 +178,6 @@ function deleteUser(id) {
                 processData: false,
                 success: function (response) {
                     console.log(response);
-                    // fs.unlinkSync('../../'+response.link)
                     reloadData();
                     $('#yesOrNoPopup').modal('hide');
                 }

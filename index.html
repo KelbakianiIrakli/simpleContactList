@@ -43,7 +43,7 @@
     <form id="add-contacts-form" onload="fillMainPageWithGroups()">
             <div class="avatar">
                 <div class="avatar-container avatar-size" id= "avatarContainer" onclick='fireClickOnUploadButton()'>
-                    <img id = "avatarImage" src="flamingo2.png" class="avatar-image">
+                    <img id = "avatarImage" src="avatar.png" class="avatar-image">
                     <div class="edit-container">
                         <div>📷</div>
                     </div>
@@ -58,14 +58,14 @@
                 </div>
                 <div class="col-lg-6">
                     <label for="lastName">გვარი</label>
-                    <input name= "lastName" type="text" placeholder = "გვარი" id="lastName" class="form-control">
+                    <input name= "lastName" type="text" required="required" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('*აუცილებელი ველი')" placeholder = "გვარი" id="lastName" class="form-control">
                 </div>
             </div>
         </div>
         <div class="form-group" id= "phoneNumbersForm">
             <label for="phone-number">მობილურის ნომერი</label>
             <div class="input-group">
-                <input type="text" name = "phoneNumber" id ="mobileNumber1"placeholder = "მობილურის ნომერი №1" class="form-control">
+                <input type="text" name = "phoneNumber" id ="mobileNumber1" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('*ველი შეიძლება იწყებოდეს(ან არ იწყებოდეს) + ით, მას კი უნდა მოსდევდეს მხოლოდ ციფრები')" pattern="^$|^[+-]?[0-9]+$" placeholder = "მობილურის ნომერი №1" class="form-control">
                 <span class="input-group-btn">
                     <button class="btn btn-primary" id="additionalPhoneNumber" onclick="additionalPhoneNumberField()" type="button"><i class="fas fa-plus"></i>&nbsp;დამატებითი ნომრის დამატება.</button>
                 </span>
@@ -73,7 +73,7 @@
         </div>
         <div class="form-group">
             <label for="groups">ჯგუფში დამატება</label>
-            <select name = "groups" class="selectpicker" title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups-main" data-live-search="true" multiple="multiple">
+            <select name = "groups" class="selectpicker" title="აირჩიეთ ჯგუფები" data-width="100%" id = "groups-main" multiple="multiple">
             </select>
             <label for="remark">შენიშვნა</label>
             <div class="input-group">

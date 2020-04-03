@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const multer = require('multer');
-
+const fs = require('fs')
+var path = require('path');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/');
@@ -166,7 +167,12 @@ router.patch("/:contactId", upload.single('profile-image-edit'), (req, res, next
 
 router.delete("/:contactId", (req, res, next) => {
   const id = req.params.contactId;
-  Contact.remove({ _id: id })
+  Contact.findById(id)
+  .select('_id  contactImage')
+  .exec()
+  .then(resp =>{
+    if(resp.contactImage && resp.contactImage!= "none") {fs.unlinkSync(path.join(__dirname,'..\\' , resp.contactImage))}
+    Contact.deleteOne({ _id: id })
     .exec()
     .then(result => {
       res.status(200).json({
@@ -174,10 +180,15 @@ router.delete("/:contactId", (req, res, next) => {
         request: {
           type: 'POST',
           url: 'http://localhost:3000/contacts',
-          body: { name: 'String', price: 'Number' }
+          body: { id: 'String' }
         }
       });
     })
+  }
+
+
+
+  )
     .catch(err => {
       console.log(err);
       res.status(500).json({

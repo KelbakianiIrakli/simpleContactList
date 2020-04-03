@@ -106,7 +106,7 @@ function warningPopup(text) {
 
 }
 function manageUserPopUp(input) {
-  var imageSrc = input.contact.contactImage && input.contact.contactImage != "none" ? "../../" + input.contact.contactImage : "../../" + "flamingo2.png"
+  var imageSrc = input.contact.contactImage && input.contact.contactImage != "none" ? "../../" + input.contact.contactImage : "../../" + "avatar.png"
   var favourite = input.contact.favourite == 'on' ? "Yes" : "No"
   var phoneNumbers = input.contact.phoneNumber ? input.contact.phoneNumber.length > 0 ? input.contact.phoneNumber.join() : "" : ""
   $('body').append(' \
@@ -150,13 +150,14 @@ function manageUserPopUp(input) {
   $('#favourite-edit').val(favourite);
   $('#select-edit').selectpicker();
   var dropDownOptions = Store.getdropDownOptions()
-  dropDownOptions.forEach(function (item, index) {
+  unionOfTwoArrays = [...new Set([...input.contact.groups,...dropDownOptions ])]
+  unionOfTwoArrays.forEach(function (item, index) {
     var isSelected = input.contact.groups.indexOf(item) > -1 ? true : false
     if (isSelected) {
-      $("#select-edit").append('<option value="' + index + 1 + '" selected="">' + dropDownOptions[index] + '</option>');
+      $("#select-edit").append('<option value="' + index + 1 + '" selected="">' + item + '</option>');
     }
     else {
-      $("#select-edit").append('<option value="' + index + 1 + '">' + dropDownOptions[index] + '</option>');
+      $("#select-edit").append('<option value="' + index + 1 + '">' + item + '</option>');
     }
   })
   $("#select-edit").selectpicker("refresh");
@@ -238,7 +239,7 @@ function additionalPhoneNumberField() {
   else {
     $('#phoneNumbersForm').append('\
     <div class="input-group" id="inputGroup">\
-        <input type="text" name="phoneNumber" id="mobileNumber'+ ++counterForNumbers + '" placeholder = "მობილურის ნომერი №' + counterForNumbers + '" class="form-control">\
+        <input type="text" name="phoneNumber" id="mobileNumber'+ ++counterForNumbers + '" placeholder = "მობილურის ნომერი №' + counterForNumbers + '" oninput=setCustomValidity("") pattern="^$|^[+-]?[0-9]+$" class="form-control">\
         <span class="input-group-btn">\
             <button class="btn  btn-danger" id="removeRow" type="button"><i class="fas fa-minus"></i>&nbsp ნომრის წაშლა.</button>\
         </span>\
