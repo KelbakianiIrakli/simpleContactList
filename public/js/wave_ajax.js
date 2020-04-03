@@ -1,7 +1,7 @@
 $(function () {
     console.log("loaded")
 })
-dropDownOptions = [ 'ოჯახი','თანამშრომლები', "ფეხბურთი", 'კალათბურთი', ]
+//navbar toggle active
 $("#add-contacts-form").submit(function (event) {
     event.preventDefault();
     var form = $('#add-contacts-form')[0]
@@ -24,6 +24,24 @@ $("#add-contacts-form").submit(function (event) {
 
     return false;
 });
+$("#contacts-groups-form").submit(function (event) {
+    event.preventDefault();
+    var arrayOfSavedGroups = $('#contacts-groups-form').serializeArray()
+
+    if (arrayOfSavedGroups && arrayOfSavedGroups.length) {
+        arrayOfSavedGroups = arrayOfSavedGroups.filter(function (element) { return element.value }).map(function (element) { return element.value })
+    }
+    Store.setDropDownOptions(arrayOfSavedGroups)
+
+    return false;
+});
+function loadPageFillByGroups() {
+    var dropDownOptions = Store.getdropDownOptions()
+    for (var i = 0; i < dropDownOptions.length; i++) {
+        $('#fieldForgroups' + (i + 1)).val(dropDownOptions[i])
+        if (i < dropDownOptions.length - 1) additionalGroupsField()
+    }
+}
 var byteArray;
 var readURL = function (input, id) {
     byteArray = ""
@@ -32,7 +50,7 @@ var readURL = function (input, id) {
         byteArray = "OLAA"
         reader.onload = function (e) {
             byteArray = e.target.result
-            $('#'+id).attr('src', byteArray);
+            $('#' + id).attr('src', byteArray);
         }
 
         reader.readAsDataURL(input.files[0]);
@@ -40,7 +58,7 @@ var readURL = function (input, id) {
 }
 
 $("#profile-image-upload").on('change', function () {
-    readURL(this, "avatarImage" );
+    readURL(this, "avatarImage");
 });
 
 function fireClickOnUploadButton() {
@@ -108,7 +126,7 @@ function savePicture(book, coverEncoded) {
 function sendPatchRequest(formData, id) {
 
     $.ajax({
-        url: '/contacts/'+id,
+        url: '/contacts/' + id,
         type: 'PATCH',
         data: formData,
         async: false,
@@ -125,10 +143,49 @@ function sendPatchRequest(formData, id) {
                 $('#manageUserPopUp').remove();
             })
         },
-        error: function(response){
+        error: function (response) {
 
         }
     });
 
     return false;
+}
+function arraysEqual(arr1, arr2) {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2) || arr1.length != arr2.length)
+        return false;
+    var sortedArr1 = arr1.concat().sort();
+    var sortedArr2 = arr2.concat().sort();
+    for (var i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i])
+            return false;
+    }
+    return true;
+}
+function fillMainPageWithGroups() {
+    var dropDownOptions = Store.getdropDownOptions()
+    for (var i = 0; i < dropDownOptions.length; i++) {
+        $("#groups-main").append('<option>'+ dropDownOptions[i] + '</option>');
+    }
+    $('#groups-main').selectpicker("refresh");
+}
+// Storing for all possible groups - I think there is no need to save this data in backend
+class Store {
+    static getdropDownOptions() {
+        let dropDownOptions;
+        if (localStorage.getItem('dropDownOptions') == null) {
+            dropDownOptions = []
+        } else {
+            dropDownOptions = JSON.parse(localStorage.getItem('dropDownOptions'))
+        }
+
+        return dropDownOptions;
+
+    }
+    static setDropDownOptions(options) {
+        localStorage.setItem('dropDownOptions', JSON.stringify(options))
+
+    }
+    static removeGroups() {
+
+    }
 }

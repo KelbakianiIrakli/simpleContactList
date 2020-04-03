@@ -77,7 +77,7 @@ function reloadData() {
             // user.modifyOrgs = (elem.modifyOrgNames.length == 0 ? "<b>None.</b>" : elem.modifyOrgNames.join(", "));
             // user.role = elem.role;
             user.actions = '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"><button class="btn btn-sm btn-primary fas fa-pen-square" onClick=modifyUser("' + elem._id +'")>\
-            </button><button class="btn btn-sm btn-danger fas fa-trash-alt" onClick=deleteUser("' + elem._id+ '","' + elem.firstName + '","' + elem.lastName + '")></button></div>'
+            </button><button class="btn btn-sm btn-danger fas fa-trash-alt" onClick=deleteUser("'+elem._id+'")></button></div>'
             return user
         });
 
@@ -168,8 +168,8 @@ function addNewUser() {
     manageUserPopUp2(userObject, "addUser", handleReturn)
 }
 
-function deleteUser(id, firstName,lastName) {
-    yesOrNoWarningPopup("ნამდვილად გსურთ კონტაქტებიდან წაშალოთ: <p>" + firstName +" "+ lastName + " ?</p>", function (decision) {
+function deleteUser(id) {
+    yesOrNoWarningPopup("ნამდვილად გსურთ კონტაქტებიდან წაშალოთ ეს კონტაქტი?", function (decision) {
         if (decision == true) {
             $.ajax({
                 url: '/contacts/'+id,

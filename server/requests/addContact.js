@@ -1,4 +1,4 @@
-const dbApi = require("../../dataAccess/dbHandler");
+
 exports.addContact = async function (req) {
     var requiredValues = ["firstName", "lastName", "mobileNumbers"]
     var templateValues = ["სახელი","გვარი","მობილურის ნომერი"]

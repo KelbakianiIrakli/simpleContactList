@@ -1,8 +1,7 @@
-const mongoUtil = require('./setup/mongoUtil');
+
 var path = require('path');
 var bodyParser = require('body-parser');
 const config = require("./setup/configuration");
-var routes = require('./routes/routes');
 var express = require('express')
 var app = express()
 const contactRoutes = require("./routes/contacts");
@@ -30,7 +29,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/contacts", contactRoutes);
-// routes(app);
 app.get('/messages', (req, res) => {
   res.send(messages)
 })
