@@ -6,7 +6,8 @@ var express = require('express')
 var app = express()
 const contactRoutes = require("./routes/contacts");
 const mongoose = require("mongoose")
-mongoose.connect('mongodb+srv://IrakliK:project-add-contacts@cluster0-7u34x.mongodb.net/test?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://IrakliK:project-add-contacts@cluster0-7u34x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb+srv://IrakliK:'+process.env.MONGO_ATLAS_PSS+'@cluster0-7u34x.mongodb.net/test?retryWrites=true&w=majority');
 // mongoose.connect('mongodb+srv://Irakli:'+ process.env.MONGO_ATLAS_PSS +'@cluster0-brtk0.mongodb.net/test?retryWrites=true&w=majority');
 mongoose.Promise = global.Promise;
 app.use(express.static(__dirname))
