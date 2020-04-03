@@ -150,7 +150,7 @@ function manageUserPopUp(input) {
   $('#favourite-edit').val(favourite);
   $('#select-edit').selectpicker();
   var dropDownOptions = Store.getdropDownOptions()
-  unionOfTwoArrays = [...new Set([...input.contact.groups,...dropDownOptions ])]
+  unionOfTwoArrays = [...new Set([...input.contact.groups, ...dropDownOptions])]
   unionOfTwoArrays.forEach(function (item, index) {
     var isSelected = input.contact.groups.indexOf(item) > -1 ? true : false
     if (isSelected) {

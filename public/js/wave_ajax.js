@@ -163,7 +163,7 @@ function arraysEqual(arr1, arr2) {
 function fillMainPageWithGroups() {
     var dropDownOptions = Store.getdropDownOptions()
     for (var i = 0; i < dropDownOptions.length; i++) {
-        $("#groups-main").append('<option>'+ dropDownOptions[i] + '</option>');
+        $("#groups-main").append('<option>' + dropDownOptions[i] + '</option>');
     }
     $('#groups-main').selectpicker("refresh");
 }

@@ -77,7 +77,7 @@ router.get("/", (req, res, next) => {
 router.post("/", upload.single('profile-image'), (req, res, next) => {
   var contactImage = "none";
   if (req.file && req.file.path) {
-    contactImage = req.file.path 
+    contactImage = req.file.path
   }
   const contact = new Contact({
     _id: new mongoose.Types.ObjectId(),
@@ -143,9 +143,10 @@ router.get("/:contactId", (req, res, next) => {
 
 router.patch("/:contactId", upload.single('profile-image-edit'), (req, res, next) => {
   const id = req.params.contactId;
-  var updateOps =  Object.assign({}, req.body)
+  var updateOps = Object.assign({}, req.body)
   if (req.file && req.file.path) {
-    updateOps["contactImage"] = req.file.path }
+    updateOps["contactImage"] = req.file.path
+  }
   Contact.updateMany({ _id: id }, { $set: updateOps })
     .exec()
     .then(result => {
@@ -168,27 +169,27 @@ router.patch("/:contactId", upload.single('profile-image-edit'), (req, res, next
 router.delete("/:contactId", (req, res, next) => {
   const id = req.params.contactId;
   Contact.findById(id)
-  .select('_id  contactImage')
-  .exec()
-  .then(resp =>{
-    if(resp.contactImage && resp.contactImage!= "none") {fs.unlinkSync(path.join(__dirname,'..\\' , resp.contactImage))}
-    Contact.deleteOne({ _id: id })
+    .select('_id  contactImage')
     .exec()
-    .then(result => {
-      res.status(200).json({
-        message: 'contact deleted',
-        request: {
-          type: 'POST',
-          url: 'http://localhost:3000/contacts',
-          body: { id: 'String' }
-        }
-      });
-    })
-  }
+    .then(resp => {
+      if (resp.contactImage && resp.contactImage != "none") { fs.unlinkSync(path.join(__dirname, '..\\', resp.contactImage)) }
+      Contact.deleteOne({ _id: id })
+        .exec()
+        .then(result => {
+          res.status(200).json({
+            message: 'contact deleted',
+            request: {
+              type: 'POST',
+              url: 'http://localhost:3000/contacts',
+              body: { id: 'String' }
+            }
+          });
+        })
+    }
 
 
 
-  )
+    )
     .catch(err => {
       console.log(err);
       res.status(500).json({
