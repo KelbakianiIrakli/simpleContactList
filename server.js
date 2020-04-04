@@ -53,7 +53,7 @@ app.use((error, req, res, next) => {
     error: { message: error.message }
   })
 })
-module.exports = app;
 var server = app.listen(config.getPort(), () => {
   console.log('server is listening on port', server.address().port)
 })
+module.exports = app;

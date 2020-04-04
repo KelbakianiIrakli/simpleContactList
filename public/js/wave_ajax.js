@@ -1,7 +1,7 @@
 $(function () {
     console.log("loaded")
 })
-//navbar toggle active
+
 $("#add-contacts-form").submit(function (event) {
     event.preventDefault();
     var form = $('#add-contacts-form')[0]
@@ -64,36 +64,6 @@ function fireClickOnUploadButton() {
     $("#profile-image-upload").click();
 };
 
-// document.querySelector('#book-form').addEventListener('submit', function (e){
-//     e.preventDefault()
-//     let date= new Date()
-//     const firstName = document.querySelector('#firstName').value
-//     const  lastName = document.querySelector('#lastName').value
-//     const favourite= document.getElementById('favourite').checked
-//     var mobileNumbers = []
-//     const groups = $('.selectpicker').val()
-//     $('input[id^="mobileNumber"]').each(function(input){
-//         var value = $('input[id^="mobileNumber"]').val();
-//         mobileNumbers.push(value)
-//         });
-//     var posting = $.post("/ajax/addContact",
-//         {
-//             firstName :  firstName,
-//             lastName : lastName,
-//             groups : groups,
-//             favourite: favourite,
-//             mobileNumbers: mobileNumbers,
-//         });
-//         posting.done(function (response) {
-//             if (response.data.status ==200){
-//                 reloadData()
-//             }
-//             else{
-//                 errorPopup("შეცდომა! \n" + "წარუმატებელი კონტაქტის დამატება")
-//             }
-//         });
-
-// })
 function savePicture(book, coverEncoded) {
     if (coverEncoded == null) return
     const cover = JSON.parse(coverEncoded)
@@ -102,25 +72,6 @@ function savePicture(book, coverEncoded) {
         book.coverImageType = cover.type
     }
 }
-// function sendPatchRequest(data) {
-//     // var formData = new FormData(data);
-//     $.ajax({
-//         url: '/contacts/'+data.contactId,
-//         type: 'PATCH',
-//         data: data,
-//         async: false,
-//         cache: false,
-//         contentType: false,
-//         enctype: 'multipart/form-data',
-//         processData: false,
-//         success: function (response) {
-//             console.log(response);
-//             location.reload();
-//         }
-//     });
-
-//     return false;
-// };
 
 function sendPatchRequest(formData, id) {
 

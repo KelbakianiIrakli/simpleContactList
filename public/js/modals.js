@@ -2,7 +2,7 @@ var counterForNumbers = 1
 const limitForNumbers = 5
 var counterForGroups = 1
 var limitForGroups = 20
-// dropDownOptions = ['ოჯახი']
+
 function yesOrNoWarningPopup(text, cb) {
   $('body').append('\
 <div class="modal" id="yesOrNoPopup";>\
@@ -164,8 +164,6 @@ function manageUserPopUp(input) {
 
   $(".modal").draggable({ handle: ".modal-header" });
   $('#manageUserPopUp').modal({ 'backdrop': 'static' });
-  // $('#PhoneNumber-group-edit').val(phoneNumbers);
-  // $('#favourite-edit').val(favourite);
   $('#manageUserPopUp #avatarContainerForEdit').on('click', function () {
     $("#profile-image-upload-edit").on('change', function () {
       readURL(this, "avatarImageForEdit");
@@ -287,12 +285,5 @@ $(document).on('click', '#removeRow', function (e) {
     $('#' + _id + numeralOfRemovedElement).attr('id', _id + (numeralOfRemovedElement - 1))
 
   }
-  // if(numeralOfRemovedElement > 1 ){
-  //   for (;numeralOfRemovedElement < 5; numeralOfRemovedElement++){
-  //     $('#inputGroup'+numeralOfRemovedElement ).attr('placeholder', 'მობილურის ნომერი №'+ numeralOfRemovedElement)
-  //   }
-  // }
-  // console.log($(this).parent().parent())
 });
-    // $('#inputGroup').remove()
 

@@ -58,13 +58,7 @@ router.get("/", (req, res, next) => {
           };
         })
       };
-      //   if (docs.length >= 0) {
       res.status(200).json(response);
-      //   } else {
-      //       res.status(404).json({
-      //           message: 'No entries found'
-      //       });
-      //   }
     })
     .catch(err => {
       console.log(err);
@@ -132,7 +126,7 @@ router.get("/:contactId", (req, res, next) => {
       } else {
         res
           .status(404)
-          .json({ message: "No valid entry found for provided ID" });
+          .json({ message: "No valid entry found" });
       }
     })
     .catch(err => {
@@ -186,9 +180,6 @@ router.delete("/:contactId", (req, res, next) => {
           });
         })
     }
-
-
-
     )
     .catch(err => {
       console.log(err);
