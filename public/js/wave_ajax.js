@@ -89,7 +89,7 @@ function sendPatchRequest(formData, id) {
             })
         },
         error: function (response) {
-            console.log(response)
+            console.log('Error', response)
         }
     });
 
