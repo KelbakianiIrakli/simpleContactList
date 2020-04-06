@@ -43,16 +43,20 @@ function loadPageFillByGroups() {
 }
 var byteArray;
 var readURL = function (input, id) {
+    // read only if file is picture.
     byteArray = ""
-    if (input.files && input.files[0]) {
+    if (input.files && input.files[0] && (input.files[0].type == 'image/jpeg' || input.files[0].type == 'image/png')) {
         var reader = new FileReader();
-        byteArray = "OLAA"
         reader.onload = function (e) {
             byteArray = e.target.result
             $('#' + id).attr('src', byteArray);
         }
-
         reader.readAsDataURL(input.files[0]);
+    }
+    else {
+        $('#' + id).attr('src', "avatar.png")
+        // allowed files types are jpeg and image. If the file type isn't one out of those two, clear up the input. Backend will reject it anyways!
+        id == 'avatarImage' ? $('#profile-image-upload').val('') : $('#profile-image-upload-edit').val('')  
     }
 }
 
@@ -63,15 +67,6 @@ $("#profile-image-upload").on('change', function () {
 function fireClickOnUploadButton() {
     $("#profile-image-upload").click();
 };
-
-function savePicture(book, coverEncoded) {
-    if (coverEncoded == null) return
-    const cover = JSON.parse(coverEncoded)
-    if (cover != null && imageMimeTypes.includes(cover.type)) {
-        book.coverImage = new Buffer.from(cover.data, 'base64')
-        book.coverImageType = cover.type
-    }
-}
 
 function sendPatchRequest(formData, id) {
 
@@ -94,7 +89,7 @@ function sendPatchRequest(formData, id) {
             })
         },
         error: function (response) {
-
+            console.log(response)
         }
     });
 

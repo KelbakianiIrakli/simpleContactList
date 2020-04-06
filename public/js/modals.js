@@ -122,7 +122,7 @@ function manageUserPopUp(input) {
         <form id="edit-contacts-form">\
         <div class="modal-body" style="overflow-y: auto" >\
         <table align="center" >\
-        <tr><td><div class="avatar"> <div class="avatar-container avatar-size" id= "avatarContainerForEdit" data-id ="'+ input.contact._id + '" > <img id = "avatarImageForEdit" src="' + imageSrc + '" \
+        <tr><td><div class="avatar"> <div class="avatar-container avatar-size" id= "avatarContainerForEdit" data-id ="'+ input.contact._id + '" > <img id = "avatarImageForEdit" src="' + imageSrc + '" title="სურათი მხოლოდ jpeg ან png ფორმატში." \
         class="avatar-image" /> <div class="edit-container"> <div>📷</div> </div> </div> </div>\</td><td><input id="profile-image-upload-edit" name="profile-image-edit" class="hidden" type="file">\
         <span class="edit-red-color" id="warning-message">ყურადღებით ჩაასწორეთ დეტალები, გაეცანით გაფრთხილებას შესაბამისი ველისთვის.</span>\
         <tr><td><font size="2">სახელი:</font></td><td><textarea form="form-group" style="resize:none" rows="1" class="form-control" id="firstName-edit"></textarea>\
@@ -165,11 +165,10 @@ function manageUserPopUp(input) {
   $(".modal").draggable({ handle: ".modal-header" });
   $('#manageUserPopUp').modal({ 'backdrop': 'static' });
   $('#manageUserPopUp #avatarContainerForEdit').on('click', function () {
+    $("#profile-image-upload-edit").click();
     $("#profile-image-upload-edit").on('change', function () {
       readURL(this, "avatarImageForEdit");
     });
-    $("#profile-image-upload-edit").click();
-
   })
 
   $('#PhoneNumber-group-edit').on('keyup', function () {

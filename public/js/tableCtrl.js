@@ -83,7 +83,7 @@ function reloadData() {
             user._id = elem._id
             user.id = id;
             id++;
-            user.pic = '<img id = "avatarImage" data-id ="' + user._id + '" src="' + contactImage + '" class="avatar-size" >';
+            user.pic = '<img id = "avatarImageInTable" data-id ="' + user._id + '" src="' + contactImage + '" class="avatar-size" >';
             user.firstName = elem.firstName;
             user.lastName = elem.lastName;
             user.mobileNumbers = elem.phoneNumber

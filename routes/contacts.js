@@ -3,7 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const multer = require('multer');
 const fs = require('fs')
-var path = require('path');
+const path = require('path');
+const Contact = require("../models/contact");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/');
@@ -20,6 +21,7 @@ const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
+    console.log("picture not uploaded!")
     cb(null, false);
   }
 };
@@ -31,8 +33,6 @@ const upload = multer({
   },
   fileFilter: fileFilter
 });
-
-const Contact = require("../models/contact");
 
 router.get("/", (req, res, next) => {
   Contact.find()
@@ -166,7 +166,10 @@ router.delete("/:contactId", (req, res, next) => {
     .select('_id  contactImage')
     .exec()
     .then(resp => {
-      if (resp.contactImage && resp.contactImage != "none") { fs.unlinkSync(path.join(__dirname, '..\\', resp.contactImage)) }
+      if (resp.contactImage && resp.contactImage != "none") {
+        var dir = path.join(__dirname, '..\\', resp.contactImage)
+        if (fs.existsSync(dir)) fs.unlinkSync(dir)
+      }
       Contact.deleteOne({ _id: id })
         .exec()
         .then(result => {
